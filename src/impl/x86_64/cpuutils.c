@@ -1,4 +1,4 @@
-#include "cpu_utils.h"
+#include "cpuutils.h"
 
 
 static inline void cpuid(int code, uint32_t* a, uint32_t* d)
