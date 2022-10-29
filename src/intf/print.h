@@ -3,6 +3,9 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#define print_error(err, _operation) {print_str(_operation);print_str(": ");print_set_color(PRINT_COLOR_RED, PRINT_COLOR_BLACK); print_str(err);print_set_color(PRINT_COLOR_LIGHT_GRAY, PRINT_COLOR_BLACK);}
+#define print_sucess(msg, _operation) {print_str(_operation);print_str(": ");print_set_color(PRINT_COLOR_GREEN, PRINT_COLOR_BLACK); print_str(msg);print_set_color(PRINT_COLOR_LIGHT_GRAY, PRINT_COLOR_BLACK);}
+
 enum {
     PRINT_COLOR_BLACK = 0,
 	PRINT_COLOR_BLUE = 1,

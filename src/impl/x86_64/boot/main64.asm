@@ -16,4 +16,3 @@ long_mode_start:
 	call kernel_main
 
     hlt
-
