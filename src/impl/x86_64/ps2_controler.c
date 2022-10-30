@@ -63,6 +63,9 @@ void* ps2_dump_memory(void){
 }
 
 void ps2_controler_init(void){
+
+    print_warning("System is initializing imported Hardware...!\n\n", "[~]")
+
     bool result;
     uint8_t count;
 
@@ -71,7 +74,7 @@ void ps2_controler_init(void){
     if (result == true) print_sucess("Self-test Passed!\n", "[TESTING PS/2 CONTROLER]")
     else print_error("Self-test Failed!\n", "[TESTING PS/2 CONTROLER]")
     print_set_color(PRINT_COLOR_LIGHT_GRAY, PRINT_COLOR_BLACK);
-    if (result == false) print_error("PS/2 Controler is maybe unstable...!\n", "[WARNING]")
+    if (result == false) print_warning("PS/2 Controler is maybe unstable...!\n", "[WARNING]")
 
     ps2_enable_first_port();
 
@@ -98,13 +101,13 @@ void ps2_controler_init(void){
 
         uint8_t type = inb(0x60);
 
-        TEST(type, 0x00, print_sucess("Found 'Standard PS/2 mouse' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"), print_error("Is not a 'Standard PS/2 mouse' Device!\n", "[CHECKING FOR DEVICES ON FIRST PORT]"))
-        TEST(type, 0x03, print_sucess("Found 'Mouse with scroll wheel' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"), print_error("Is not a 'Mouse with scroll wheel' Device!\n", "[CHECKING FOR DEVICES ON FIRST PORT]"))
-        TEST(type, 0x04, print_sucess("Found '5-button mouse' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"), print_error("Is not a '5-button mouse' Device!\n", "[CHECKING FOR DEVICES ON FIRST PORT]"))
-        TEST(type, (0xAB, 0x83), print_sucess("Found 'MF2 keyboard' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"), print_error("Is not a 'MF2 keyboard' Device!\n", "[CHECKING FOR DEVICES ON FIRST PORT]"))
-        TEST(type, (0xAB, 0x41), print_sucess("Found 'MF2 keyboard with translation enabled in the PS/Controller' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"), print_error("Is not a 'MF2 keyboard with translation enabled in the PS/Controller' Device!\n", "[CHECKING FOR DEVICES ON FIRST PORT]"))
-        TEST(type, (0xAB, 0xC1), print_sucess("Found 'MF2 keyboard with translation enabled in the PS/Controller' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"), print_error("Is not a 'MF2 keyboard with translation enabled in the PS/Controller' Device!\n", "[CHECKING FOR DEVICES ON FIRST PORT]"))
-        TEST(!IF6(type, 0x00, 0x03, 0x04, (0x0AB, 0x83), (0xAB, 0x41), (0xAB, 0xC1)), true, print_sucess("Found 'Standart PS/2 Keyboard' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"), print_error("Is now a 'Standart PS/2 Keyboard' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"))
+        TEST(type, PS2_DEVCIE_STDMOUSE, print_sucess("Found 'Standard PS/2 mouse' Device\n", CHECK_FIRST_PORT_OPNAME), print_error("Is not a 'Standard PS/2 mouse' Device!\n", CHECK_FIRST_PORT_OPNAME))
+        TEST(type, PS2_DEVICE_MOUSE_WITH_SCROOLWHEEL, print_sucess("Found 'Mouse with scroll wheel' Device\n", CHECK_FIRST_PORT_OPNAME), print_error("Is not a 'Mouse with scroll wheel' Device!\n", CHECK_FIRST_PORT_OPNAME))
+        TEST(type, PS2_DEVICE_5BUTTONMOUSE, print_sucess("Found '5-button mouse' Device\n", CHECK_FIRST_PORT_OPNAME), print_error("Is not a '5-button mouse' Device!\n", CHECK_FIRST_PORT_OPNAME))
+        TEST(type, PS2_DEVICE_MF2_KEYBOARD, print_sucess("Found 'MF2 keyboard' Device\n", CHECK_FIRST_PORT_OPNAME), print_error("Is not a 'MF2 keyboard' Device!\n", CHECK_FIRST_PORT_OPNAME))
+        TEST(type, PS2_DEVICE_MF2_KEYBOARD_TRANSLATION_0, print_sucess("Found 'MF2 Keyboard +Translation (0x0)' Device\n", CHECK_FIRST_PORT_OPNAME), print_error("Is not a 'MF2 Keyboard +Translation (0x0)' Device!\n", CHECK_FIRST_PORT_OPNAME))
+        TEST(type, PS2_DEVICE_MF2_KEYBOARD_TRANSLATION_1, print_sucess("Found 'MF2 Keyboard +Translation (0x1)' Device\n", CHECK_FIRST_PORT_OPNAME), print_error("Is not a 'MF2 Keyboard +Translation (0x1)' Device!\n", CHECK_FIRST_PORT_OPNAME))
+        TEST(!IF6(type,  PS2_DEVCIE_STDMOUSE, PS2_DEVICE_MOUSE_WITH_SCROOLWHEEL, PS2_DEVICE_5BUTTONMOUSE, PS2_DEVICE_MF2_KEYBOARD, PS2_DEVICE_MF2_KEYBOARD_TRANSLATION_0, PS2_DEVICE_MF2_KEYBOARD_TRANSLATION_1), true, print_sucess("Found 'Standart PS/2 Keyboard' Device\n", CHECK_FIRST_PORT_OPNAME), print_error("Is now a 'Standart PS/2 Keyboard' Device\n", CHECK_FIRST_PORT_OPNAME))
     }
 
     ps2_enable_second_port();
@@ -125,11 +128,11 @@ void ps2_controler_init(void){
 
         uint8_t type = inb(0x60);
 
-        TEST(type, 0x00, print_sucess("Found 'Standard PS/2 mouse' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"), print_error("Is not a 'Standard PS/2 mouse' Device!\n", "[CHECKING FOR DEVICES ON FIRST PORT]"))
-        TEST(type, 0x03, print_sucess("Found 'Mouse with scroll wheel' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"), print_error("Is not a 'Mouse with scroll wheel' Device!\n", "[CHECKING FOR DEVICES ON FIRST PORT]"))
-        TEST(type, 0x04, print_sucess("Found '5-button mouse' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"), print_error("Is not a '5-button mouse' Device!\n", "[CHECKING FOR DEVICES ON FIRST PORT]"))
-        TEST(type, (0xAB, 0x83), print_sucess("Found 'MF2 keyboard' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"), print_error("Is not a 'MF2 keyboard' Device!\n", "[CHECKING FOR DEVICES ON FIRST PORT]"))
-        TEST(!IF4(type, 0x00, 0x03, 0x04, (0x0AB, 0x83)), true, print_sucess("Found 'Standart PS/2 Keyboard' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"), print_error("Is now a 'Standart PS/2 Keyboard' Device\n", "[CHECKING FOR DEVICES ON FIRST PORT]"))
+        TEST(type, PS2_DEVCIE_STDMOUSE, print_sucess("Found 'Standard PS/2 mouse' Device\n", CHECK_SECOND_PORT_OPNAME), print_error("Is not a 'Standard PS/2 mouse' Device!\n", CHECK_SECOND_PORT_OPNAME))
+        TEST(type, PS2_DEVICE_MOUSE_WITH_SCROOLWHEEL, print_sucess("Found 'Mouse with scroll wheel' Device\n", CHECK_SECOND_PORT_OPNAME), print_error("Is not a 'Mouse with scroll wheel' Device!\n", CHECK_SECOND_PORT_OPNAME))
+        TEST(type, PS2_DEVICE_5BUTTONMOUSE, print_sucess("Found '5-button mouse' Device\n", CHECK_SECOND_PORT_OPNAME), print_error("Is not a '5-button mouse' Device!\n", CHECK_SECOND_PORT_OPNAME))
+        TEST(type, PS2_DEVICE_MF2_KEYBOARD, print_sucess("Found 'MF2 keyboard' Device\n", CHECK_SECOND_PORT_OPNAME), print_error("Is not a 'MF2 keyboard' Device!\n", CHECK_SECOND_PORT_OPNAME))
+        TEST(!IF4(type, PS2_DEVCIE_STDMOUSE, PS2_DEVICE_MOUSE_WITH_SCROOLWHEEL, PS2_DEVICE_5BUTTONMOUSE, PS2_DEVICE_MF2_KEYBOARD), true, print_sucess("Found 'Standart PS/2 Keyboard' Device\n", CHECK_SECOND_PORT_OPNAME), print_error("Is now a 'Standart PS/2 Keyboard' Device\n", CHECK_SECOND_PORT_OPNAME))
         
     }
     
