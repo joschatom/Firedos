@@ -15,7 +15,7 @@
 #define PS2_DEVICE_MF2_KEYBOARD_TRANSLATION_1   (0xAB, 0xC1)
 #define PS2_DEVICE_MF2_KEYBOARD                 (0xAB, 0x83)
 #define CHECK_FIRST_PORT_OPNAME                 "[CHECKING FIRST PORT]"
-#define CHECK_SECOND_PORT_OPNAME                "[CHECKING SECOND PORT]"
+#define CHECK_SECOND_PORT_OPNAME                "[CHECKING SECOND PORT] "
 #define TEST(a,b,c,d) if (a==b) c else d
 #define IF4(t, v1, v2, v3 , v4) (t == v1 || t==v2 || t==v3 || t==v4)
 #define IF6(t, v1, v2, v3 , v4, v5, v6) (t == v1 || t==v2 || t==v3 || t==v4 || t==v5 || t==v6)

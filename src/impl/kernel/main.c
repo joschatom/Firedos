@@ -4,6 +4,11 @@
 #include "io.h"
 #include "ps2_controler.h"
 
+
+#define print_date() {read_rtc(); print_str(day); print_char('/'); print_str(month); print_char('/'); print_str(year); }
+
+#include "rtctime.h"
+
 void kernel_main(){
 
 	// ==== GDT Descriptors (gdt.c*4) ==== //
@@ -19,21 +24,22 @@ void kernel_main(){
     ps2_controler_init();
 
 
+
+
     print_set_color(PRINT_COLOR_CYAN, PRINT_COLOR_BLACK);
 
+    print_str(inb(0x71));
 
+    if(true)print_date();
 
     /*while (true)
     {
         print_str(inb(0x00));
     }*/
-    
-
-
 
     //exception_handler();
 
-	print_str("This os was created using the os64 template!");
+	print_str("\nThis os was created using the os64 template!\n");
 
     asm volatile ("hlt");
 }
