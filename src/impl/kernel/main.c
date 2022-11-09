@@ -4,11 +4,6 @@
 #include "io.h"
 #include "ps2_controler.h"
 
-
-#define print_date() {read_rtc(); print_str(day); print_char('/'); print_str(month); print_char('/'); print_str(year); }
-
-#include "rtctime.h"
-
 void kernel_main(){
 
 	// ==== GDT Descriptors (gdt.c*4) ==== //
@@ -25,17 +20,13 @@ void kernel_main(){
 
 
 
-
     print_set_color(PRINT_COLOR_CYAN, PRINT_COLOR_BLACK);
 
-    print_str(inb(0x71));
+    print_str(("Scancode %d", inb(0x71)));
 
-    if(true)print_date();
+    
 
-    /*while (true)
-    {
-        print_str(inb(0x00));
-    }*/
+    
 
     //exception_handler();
 
