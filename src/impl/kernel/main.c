@@ -3,6 +3,7 @@
 #include "idt.h"
 #include "io.h"
 #include "ps2_controler.h"
+#include "sys_types.h"
 
 void kernel_main(){
 
@@ -17,7 +18,6 @@ void kernel_main(){
 
     idt_init();
     ps2_controler_init();
-
 
 
     print_set_color(PRINT_COLOR_CYAN, PRINT_COLOR_BLACK);
