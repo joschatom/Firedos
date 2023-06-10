@@ -1,3 +1,5 @@
+# ***I've disconinued this project please check out my new OS at ***
+
 # **Firedos**
 **A "*modern*" DOS operating system (64-bit).**
 
